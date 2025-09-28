@@ -42,8 +42,7 @@ tmp/
 temp/
 .cache/
 
-# Claude AI configuration (excluded from repo)
-.claude/
+
 
 # Uploads folder
 uploads/
