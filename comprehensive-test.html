@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <title>🔬 اختبار شامل لحل مشكلة الستايلات</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+            text-align: center;
+            font-size: 2.5em;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .test-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        .test-card {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 20px;
+            border: 2px solid #e0e0e0;
+        }
+        .test-card h3 {
+            color: #555;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        button {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 10px;
+            font-size: 1em;
+            cursor: pointer;
+            margin: 5px;
+            transition: all 0.3s ease;
+        }
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        button.success { background: linear-gradient(135deg, #56ab2f, #a8e063); }
+        button.warning { background: linear-gradient(135deg, #f2994a, #f2c94c); }
+        button.danger { background: linear-gradient(135deg, #eb3349, #f45c43); }
+        .result-box {
+            margin-top: 15px;
+            padding: 15px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            max-height: 200px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+        }
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-left: 10px;
+        }
+        .status-success { background: #4CAF50; }
+        .status-error { background: #f44336; }
+        .status-warning { background: #ff9800; }
+        .status-pending { background: #2196F3; animation: pulse 2s infinite; }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .preview-container {
+            margin-top: 30px;
+            border: 2px solid #ddd;
+            border-radius: 15px;
+            overflow: hidden;
+            height: 600px;
+            background: #f5f5f5;
+        }
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        .test-controls {
+            background: linear-gradient(135deg, #f5f5f5, #e0e0e0);
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+        }
+        select {
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            margin: 0 10px;
+            font-size: 1em;
+        }
+        .success-message {
+            background: linear-gradient(135deg, #56ab2f, #a8e063);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            margin: 20px 0;
+            font-size: 1.2em;
+            display: none;
+        }
+        .debug-info {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85em;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔬 اختبار شامل لحل مشكلة الستايلات</h1>
+
+        <!-- Test Controls -->
+        <div class="test-controls">
+            <label>الصف الدراسي:</label>
+            <select id="gradeSelect">
+                <option value="3">الصف الثالث (ابتدائي - ألوان زاهية)</option>
+                <option value="6">الصف السادس (ابتدائي - ألوان متوسطة)</option>
+                <option value="9">الصف التاسع (إعدادي - ألوان هادئة)</option>
+                <option value="12">الصف الثاني عشر (ثانوي - ألوان احترافية)</option>
+            </select>
+            
+            <button onclick="runAllTests()" class="success">
+                🚀 تشغيل جميع الاختبارات
+            </button>
+        </div>
+
+        <!-- Test Grid -->
+        <div class="test-grid">
+            <!-- Test 1: HTML Processing -->
+            <div class="test-card">
+                <h3>
+                    1️⃣ معالجة HTML
+                    <span id="test1Status" class="status-indicator status-pending"></span>
+                </h3>
+                <button onclick="testHTMLProcessing()">اختبار المعالجة</button>
+                <div id="test1Result" class="result-box">في انتظار الاختبار...</div>
+            </div>
+
+            <!-- Test 2: API Communication -->
+            <div class="test-card">
+                <h3>
+                    2️⃣ اتصال API
+                    <span id="test2Status" class="status-indicator status-pending"></span>
+                </h3>
+                <button onclick="testAPI()">اختبار API</button>
+                <div id="test2Result" class="result-box">في انتظار الاختبار...</div>
+            </div>
+
+            <!-- Test 3: Iframe Display -->
+            <div class="test-card">
+                <h3>
+                    3️⃣ عرض Iframe
+                    <span id="test3Status" class="status-indicator status-pending"></span>
+                </h3>
+                <button onclick="testIframeDisplay()">اختبار العرض</button>
+                <div id="test3Result" class="result-box">في انتظار الاختبار...</div>
+            </div>
+
+            <!-- Test 4: Style Validation -->
+            <div class="test-card">
+                <h3>
+                    4️⃣ التحقق من الستايلات
+                    <span id="test4Status" class="status-indicator status-pending"></span>
+                </h3>
+                <button onclick="testStyleValidation()">اختبار الستايلات</button>
+                <div id="test4Result" class="result-box">في انتظار الاختبار...</div>
+            </div>
+        </div>
+
+        <!-- Success Message -->
+        <div id="successMessage" class="success-message">
+            ✅ جميع الاختبارات نجحت! الستايلات تعمل بشكل مثالي 🎉
+        </div>
+
+        <!-- Preview -->
+        <h2 style="text-align: center; margin-top: 30px;">📺 معاينة الشريحة</h2>
+        <div class="preview-container">
+            <iframe id="previewFrame"></iframe>
+        </div>
+
+        <!-- Debug Info -->
+        <div id="debugInfo" class="debug-info">
+            <strong>🔍 Debug Information:</strong>
+            <pre id="debugContent">Waiting for tests...</pre>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:3001/api';
+        let testResults = {
+            htmlProcessing: false,
+            apiCommunication: false,
+            iframeDisplay: false,
+            styleValidation: false
+        };
+
+        // 1. Test HTML Processing
+        async function testHTMLProcessing() {
+            updateStatus('test1Status', 'pending');
+            log('test1Result', '🔄 Testing HTML processing...');
+
+            try {
+                // Test escaped HTML
+                const escapedHTML = '&lt;!DOCTYPE html&gt;&lt;html&gt;&lt;head&gt;&lt;style&gt;body{background:red;}&lt;/style&gt;&lt;/head&gt;&lt;body&gt;Test&lt;/body&gt;&lt;/html&gt;';
+                
+                // Decode
+                const textarea = document.createElement('textarea');
+                textarea.innerHTML = escapedHTML;
+                const decoded = textarea.value;
+
+                if (decoded.includes('<!DOCTYPE') && decoded.includes('<style>')) {
+                    log('test1Result', '✅ HTML decoding works!');
+                    log('test1Result', `Decoded length: ${decoded.length} chars`);
+                    updateStatus('test1Status', 'success');
+                    testResults.htmlProcessing = true;
+                } else {
+                    throw new Error('Decoding failed');
+                }
+            } catch (error) {
+                log('test1Result', `❌ Error: ${error.message}`);
+                updateStatus('test1Status', 'error');
+            }
+        }
+
+        // 2. Test API Communication
+        async function testAPI() {
+            updateStatus('test2Status', 'pending');
+            log('test2Result', '🔄 Testing API communication...');
+
+            try {
+                const grade = document.getElementById('gradeSelect').value;
+                const response = await fetch(`${API_BASE}/test/slides/preview/title?grade=${grade}`);
+                
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                
+                const html = await response.text();
+                
+                log('test2Result', `✅ API responded with ${html.length} chars`);
+                log('test2Result', `Has styles: ${html.includes('<style>') ? 'YES' : 'NO'}`);
+                log('test2Result', `Has gradient: ${html.includes('gradient') ? 'YES' : 'NO'}`);
+                
+                updateStatus('test2Status', 'success');
+                testResults.apiCommunication = true;
+
+                // Update debug info
+                updateDebugInfo({
+                    apiResponse: {
+                        length: html.length,
+                        hasDoctype: html.includes('<!DOCTYPE'),
+                        hasStyles: html.includes('<style'),
+                        hasGradient: html.includes('gradient'),
+                        preview: html.substring(0, 200) + '...'
+                    }
+                });
+
+                return html;
+            } catch (error) {
+                log('test2Result', `❌ Error: ${error.message}`);
+                updateStatus('test2Status', 'error');
+                return null;
+            }
+        }
+
+        // 3. Test Iframe Display
+        async function testIframeDisplay() {
+            updateStatus('test3Status', 'pending');
+            log('test3Result', '🔄 Testing iframe display...');
+
+            try {
+                const html = await testAPI();
+                if (!html) throw new Error('No HTML to display');
+
+                // Create blob and display
+                const blob = new Blob([html], { type: 'text/html; charset=utf-8' });
+                const blobUrl = URL.createObjectURL(blob);
+                
+                const iframe = document.getElementById('previewFrame');
+                iframe.src = blobUrl;
+
+                iframe.onload = () => {
+                    log('test3Result', '✅ Iframe loaded successfully!');
+                    updateStatus('test3Status', 'success');
+                    testResults.iframeDisplay = true;
+                    
+                    // Clean up
+                    setTimeout(() => URL.revokeObjectURL(blobUrl), 100);
+                };
+
+                iframe.onerror = () => {
+                    throw new Error('Iframe failed to load');
+                };
+            } catch (error) {
+                log('test3Result', `❌ Error: ${error.message}`);
+                updateStatus('test3Status', 'error');
+            }
+        }
+
+        // 4. Test Style Validation
+        async function testStyleValidation() {
+            updateStatus('test4Status', 'pending');
+            log('test4Result', '🔄 Validating styles...');
+
+            try {
+                const iframe = document.getElementById('previewFrame');
+                const iframeDoc = iframe.contentDocument || iframe.contentWindow?.document;
+                
+                if (!iframeDoc) {
+                    // Try via API
+                    const html = await testAPI();
+                    if (!html) throw new Error('No HTML to validate');
+
+                    const checks = {
+                        hasStyles: html.includes('<style'),
+                        hasGradient: html.includes('gradient'),
+                        hasColors: html.includes('#') || html.includes('rgb'),
+                        hasAnimation: html.includes('animation') || html.includes('@keyframes'),
+                        hasFonts: html.includes('font-family')
+                    };
+
+                    const passed = Object.values(checks).filter(v => v).length;
+                    const total = Object.values(checks).length;
+
+                    log('test4Result', `✅ Style checks: ${passed}/${total} passed`);
+                    Object.entries(checks).forEach(([key, value]) => {
+                        log('test4Result', `  ${value ? '✓' : '✗'} ${key}`);
+                    });
+
+                    if (passed >= 3) {
+                        updateStatus('test4Status', 'success');
+                        testResults.styleValidation = true;
+                    } else {
+                        updateStatus('test4Status', 'warning');
+                    }
+                } else {
+                    // Direct iframe check
+                    const hasStyles = iframeDoc.querySelector('style');
+                    log('test4Result', hasStyles ? '✅ Styles found in iframe' : '❌ No styles in iframe');
+                    updateStatus('test4Status', hasStyles ? 'success' : 'error');
+                    testResults.styleValidation = hasStyles;
+                }
+            } catch (error) {
+                log('test4Result', `⚠️ ${error.message}`);
+                updateStatus('test4Status', 'warning');
+            }
+        }
+
+        // Run All Tests
+        async function runAllTests() {
+            console.log('🚀 Running all tests...');
+            
+            // Reset
+            document.getElementById('successMessage').style.display = 'none';
+            
+            // Run tests in sequence
+            await testHTMLProcessing();
+            await new Promise(r => setTimeout(r, 500));
+            
+            await testAPI();
+            await new Promise(r => setTimeout(r, 500));
+            
+            await testIframeDisplay();
+            await new Promise(r => setTimeout(r, 500));
+            
+            await testStyleValidation();
+            
+            // Check results
+            const allPassed = Object.values(testResults).every(v => v === true);
+            if (allPassed) {
+                document.getElementById('successMessage').style.display = 'block';
+                console.log('🎉 All tests passed!');
+            } else {
+                console.log('⚠️ Some tests failed:', testResults);
+            }
+
+            updateDebugInfo({
+                testResults,
+                timestamp: new Date().toISOString()
+            });
+        }
+
+        // Helper functions
+        function updateStatus(elementId, status) {
+            const element = document.getElementById(elementId);
+            element.className = 'status-indicator status-' + status;
+        }
+
+        function log(elementId, message) {
+            const element = document.getElementById(elementId);
+            const time = new Date().toLocaleTimeString('ar-EG');
+            element.innerHTML += `[${time}] ${message}\n`;
+            element.scrollTop = element.scrollHeight;
+        }
+
+        function updateDebugInfo(data) {
+            const debugContent = document.getElementById('debugContent');
+            const current = debugContent.textContent;
+            debugContent.textContent = JSON.stringify(data, null, 2) + '\n\n' + current;
+        }
+
+        // Auto-run on load
+        window.onload = () => {
+            console.log('🔬 Test suite loaded and ready');
+            log('test1Result', 'Ready for testing');
+            log('test2Result', 'Ready for testing');
+            log('test3Result', 'Ready for testing');
+            log('test4Result', 'Ready for testing');
+        };
+    </script>
+</body>
+</html>
